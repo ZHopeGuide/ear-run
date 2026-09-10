@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# EAR//RUN
 
-## Getting Started
+Melodic speedrunning — pick a phrase, race the clock through Sing it → Write it →
+Play it, one continuous video proves the run. See `/Users/zhope's vault:
+1.Project/EAR RUN/ear-run-handoff.md` for the full project brief.
 
-First, run the development server:
+## First-time setup (once you have Supabase + Vercel accounts)
+
+1. **Supabase project** → SQL Editor → run `supabase/schema.sql`, then `supabase/seed.sql`.
+2. **Storage bucket** → Storage → New bucket named `run-videos`, mark it public.
+   Then back in SQL Editor, run the two storage policy statements commented at
+   the bottom of `schema.sql`.
+3. **Env vars** → copy `.env.local.example` to `.env.local`, fill in from
+   Supabase Project Settings → API:
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY` (the `anon` `public` key, not `service_role`)
+4. Add songs' real `youtube_id` / `start_sec` / `end_sec` in the `songs` table
+   once you've picked the exact clips (left blank for now — falls back to a
+   synthesized placeholder tone where `notes` is set).
+
+## Run locally
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000). Camera/mic recording
+needs `localhost` or HTTPS — won't work over plain `http://<lan-ip>`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deploy (so classmates can join from their own devices)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Push this repo to GitHub, then import it in Vercel and add the same two
+`NEXT_PUBLIC_SUPABASE_*` env vars in the Vercel project settings.
 
-## Learn More
+## Notes
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- No real accounts — runners just type a name, saved in their browser
+  (`localStorage`), same name they'll show up under on the leaderboard.
+- Runs post straight to the leaderboard, no review/approval gate — fine for a
+  class demo with people you know. Add a `status` column + filter if that
+  changes.
