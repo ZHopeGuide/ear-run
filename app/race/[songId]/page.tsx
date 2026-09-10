@@ -113,7 +113,7 @@ export default function RacePage({ params }: { params: Promise<{ songId: string 
     // ponytail: performance.now() here is a false-positive purity flag — this
     // only ever runs from a click handler, never during render.
     // eslint-disable-next-line react-hooks/purity
-    const now = performance.now() - startTimeRef.current;
+    const now = Math.round(performance.now() - startTimeRef.current);
     const next = [...splitTimes];
     next[segIndex] = now;
     setSplitTimes(next);
